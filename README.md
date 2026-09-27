@@ -92,6 +92,3 @@ I'm passionate about solving real-world problems using AI/ML, and this project i
 
 Feel free to ⭐️ the repo or suggest improvements!
 
-do ra mi so la na ti
-
-sa re ga ma pa da ni 
