@@ -1,93 +1,121 @@
-# 💳 Credit Card Fraud Detection Using Machine Learning
+# Credit Card Fraud Detection Using Machine Learning
 
-This project is focused on building an efficient fraud detection system using real-world anonymized credit card transaction data. The aim is to identify fraudulent transactions from legitimate ones using advanced machine learning models while handling extreme class imbalance.
+This project uses machine learning to identify potentially fraudulent
+credit card transactions. It compares three model configurations and
+evaluates how well they detect fraud in an imbalanced dataset.
 
-# 📌 Objective
+## Models Compared
 
-To detect credit card fraud accurately and efficiently using techniques like data preprocessing, class balancing (SMOTE), and modeling (XGBoost, Random Forest, etc.). The project focuses on minimizing false negatives (i.e., undetected frauds) while keeping false positives low enough to avoid inconveniencing real users.
+-   **XGBoost with SMOTE:** Uses synthetic oversampling to help the
+    model learn from fraudulent transactions.
+-   **Class-Weighted XGBoost:** Gives more importance to fraudulent
+    transactions during training.
+-   **Class-Weighted Random Forest:** Uses class weights to account for
+    the low number of fraud cases.
 
----
+## Dataset
 
-# 📂 Dataset Overview
+The project uses the [Credit Card Fraud Detection dataset on
+Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud).
 
-- Source: [Kaggle Credit Card Fraud Detection Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-- Records: 284,807 transactions
-- Features: 30 anonymized numerical features (`V1` to `V28`, `Time`, and `Amount`)
-- Target: `Class` (0 = legit, 1 = fraud)
-- Imbalance: Only ~0.17% of transactions are fraudulent
+-   284,807 transactions
+-   492 fraudulent transactions
+-   `Class = 0`: Legitimate transaction
+-   `Class = 1`: Fraudulent transaction
 
----
+The dataset is highly imbalanced, with fraud representing about 0.17% of
+transactions.
 
-# 🧪 Approach & Methodology
+Download `creditcard.csv` from Kaggle and place it in the same folder as
+the notebook.
 
-### 🔄 Data Preprocessing:
-- Handled extreme class imbalance using **SMOTE (Synthetic Minority Oversampling Technique)**
-- Scaled `Amount` and `Time` using **StandardScaler**
-- Ensured no data leakage from target column
+## Technologies Used
 
-# 📊 Exploratory Data Analysis:
-- Visualized class distribution
-- Correlation heatmaps to inspect feature relationships
-- Checked for skewed features and distribution differences
+-   Python
+-   Jupyter Notebook
+-   pandas and NumPy
+-   scikit-learn
+-   XGBoost
+-   imbalanced-learn (SMOTE)
+-   Matplotlib and Seaborn
 
-# 🧠 Models Trained:
-- **Random Forest Classifier**
-- **XGBoost Classifier**
-- Compared with and without SMOTE and scale_pos_weight
+## How to Run
 
-# 📈 Evaluation Metrics:
-- **Confusion Matrix**
-- **Precision, Recall, F1-score**
-- **ROC-AUC Score**
-- Focus on **Recall** to catch as many frauds as possible
+1.  Download or clone this repository.
 
+2.  Download `creditcard.csv` from the Kaggle link above.
 
+3.  Place the CSV file beside `CreditCardFraudDetection.ipynb`.
 
-## ✅ Key Results
+4.  Install the required libraries:
 
-| Model         | Precision | Recall | F1-score | ROC-AUC |
-|---------------|-----------|--------|----------|---------|
-| Random Forest | High      | Medium | Good     | ~0.98   |
-| XGBoost (SMOTE) | High   | High   | Excellent| >0.99   |
+    ``` bash
+    pip install pandas numpy matplotlib seaborn scikit-learn xgboost imbalanced-learn jupyter
+    ```
 
-- 📌 **XGBoost + SMOTE performed the best overall**
-- 🚫 False negatives minimized — catching almost all frauds
-- 🎯 ROC-AUC consistently > 0.99
+5.  Open and run `CreditCardFraudDetection.ipynb` in Jupyter Notebook or
+    Google Colab.
 
----
+**Note:** The notebook includes a synthetic-data fallback if the CSV is
+missing. Results from synthetic data are not valid for measuring real
+fraud detection performance. Use the Kaggle dataset for meaningful
+results.
 
-# 💡 Conclusion & Recommendations
+## Results
 
-- **Deploy XGBoost with SMOTE** for real-time fraud detection
-- Monitor model performance and retrain with recent data periodically
-- Use threshold tuning depending on business risk tolerance
-- Future work: try deep learning (autoencoders), real-time streaming, and more enriched feature sets
+The notebook's recorded results are shown below.
 
----
+  ----------------------------------------------------------------------------
+  Model                 Precision         Recall       F1-score        ROC-AUC
+  ---------------- -------------- -------------- -------------- --------------
+  XGBoost + SMOTE          34.55%     **86.73%**         49.42%         97.60%
 
-# 📁 Files in This Repo
+  Class-Weighted           75.93%         83.67%         79.61%         97.58%
+  XGBoost                                                       
 
-- `CreditCardFraudDetection.ipynb` – complete code with analysis and models
-- `creditcard.csv` – dataset used for training/testing
-- `Results.pdf` – final summary of model evaluation
-- `README.md` – this file 😉
+  Class-Weighted       **80.00%**         81.63%     **80.81%**     **98.27%**
+  Random Forest                                                 
+  ----------------------------------------------------------------------------
 
----
+-   **Random Forest** achieved the highest precision, F1-score, and
+    ROC-AUC in this experiment.
+-   **XGBoost with SMOTE** achieved the highest recall, but its lower
+    precision means it flags more legitimate transactions as fraud.
+-   Accuracy is not enough to judge these models because fraudulent
+    transactions are rare.
 
-# 🚀 Tools & Technologies Used
+These results are from the existing notebook output and have not been
+independently reproduced. They may change after improvements to the
+experiment.
 
-- Python
-- Pandas, NumPy
-- Matplotlib, Seaborn
-- Scikit-learn
-- Imbalanced-learn (SMOTE)
-- XGBoost
-- Google Colab
+## Project Workflow
 
----
+1.  Load and explore the transaction data.
+2.  Prepare the features and target column.
+3.  Split the data into training and test sets.
+4.  Apply different class-imbalance strategies.
+5.  Train the three model configurations.
+6.  Compare their performance using evaluation metrics and plots.
 
-# 🙋‍♂️ About Me
+## Limitations and Future Improvements
 
-I'm passionate about solving real-world problems using AI/ML, and this project is part of my learning journey into building high-impact machine learning systems.
+-   Fit the data scaler only on the training set to prevent data
+    leakage.
+-   Tune model settings and classification thresholds using validation
+    data.
+-   Test on later transactions using a time-based split.
+-   Add Precision-Recall AUC and compare false-positive counts.
+-   Consider deploying the selected model through an API or dashboard in
+    a future version.
 
-Feel free to ⭐️ the repo or suggest improvements!
+## Project Scope
+
+This repository is a **machine learning model comparison project**. It
+includes model training and evaluation in a notebook; it does not
+currently provide a deployed API, frontend dashboard, or production
+fraud monitoring system.
+
+## Disclaimer
+
+This project is for learning and portfolio purposes. It has not been
+validated for real-world financial decisions.
